@@ -1,11 +1,14 @@
 #![warn(clippy::all, rust_2018_idioms)]
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
-#[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
-#[cfg_attr(feature = "serde", serde(default))]
+// #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
+// #[cfg_attr(feature = "serde", serde(default))]
 
 // When compiling natively:
 #[cfg(not(target_arch = "wasm32"))]
+
+use std::process::Command;
+
 fn main() {
     // Log to stdout (if you run with `RUST_LOG=debug`).
     tracing_subscriber::fmt::init();
@@ -18,7 +21,9 @@ fn main() {
     );
 }
 #[derive(Default)]
-struct MyEguiApp {}
+struct MyEguiApp {
+
+}
 
 pub trait View {
     fn ui(&mut self, ui: &mut egui::Ui);
@@ -54,6 +59,24 @@ impl eframe::App for MyEguiApp {
                 ui.menu_button("Test", Self::test_menu);
                 ui.menu_button("About", Self::about_menu);
             });
+
+           let output = Command::new("powershell")
+                                .arg("cargo")
+                                .arg("run")
+                                .arg("--bin test_selenium1")
+                                .output()
+                                .expect("failed to execute process");
+                //    let output = Command::new("powershell")
+                //                 .arg("pwd")                               
+                //                 .output()
+                //                 .expect("failed to execute process");
+
+                                //cargo run --bin test_selenium
+
+            let output = String::from_utf8(output.stdout).unwrap();
+            ui.label(format!("Hello, the current status is {:?}", &*output));           
+            println!("{:?}", output);
+            
        });
    }
 }

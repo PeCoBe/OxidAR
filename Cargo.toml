@@ -1,17 +1,19 @@
 [package]
 name = "oxidized_selenium"
 version = "0.1.0"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-
 [dependencies]
 egui = "0.18.0"
 eframe = { version = "0.18.0", features = ["persistence"] }
 serde = { version = "1", features = ["derive"] } # You only need this if you want app persistence
+thirtyfour = "0.29.4"
+tokio = { version = "1", features = ["fs", "macros", "rt-multi-thread", "io-util", "sync"] }
 
 # native:
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]

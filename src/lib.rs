@@ -1,7 +1,7 @@
 #![warn(clippy::all, rust_2018_idioms)]
 
 mod app;
-pub use app::TemplateApp;
+pub use crate::app::TemplateApp;
 
 // ----------------------------------------------------------------------------
 // When compiling for web:
